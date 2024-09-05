@@ -7,11 +7,13 @@ import {mainActions} from "./store/main-slice";
 import StatusBarMessage from "./components/UI/StatusBarMessage";
 
 let isInitialRunning = true;
+
 function App() {
     const isCartVisible = useSelector((state) => state.main.isCartVisible);
     const cart = useSelector((state) => state.cart);
-    const statusMessage = useSelector((state) => state.main.showStatusMessage);
+    const statusMessage = useSelector((state) => state.main.statusMessage);
     const dispatchFunction = useDispatch();
+
 
     useEffect(() => {
         const sendCartData = async () => {
@@ -40,7 +42,7 @@ function App() {
             );
         };
 
-        if(isInitialRunning) {
+        if (isInitialRunning) {
             isInitialRunning = false;
             return;
         }
@@ -54,14 +56,13 @@ function App() {
             );
         });
     }, [cart, dispatchFunction]);
-    console.log(statusMessage);
     return (
         <Fragment>
-            {statusMessage && (
-            <StatusBarMessage status={statusMessage.status}
-                              title={statusMessage.title}
-                              message={statusMessage.message}/>
-        )}
+            {statusMessage &&
+                <StatusBarMessage status={statusMessage.status}
+                                  title={statusMessage.title}
+                                  message={statusMessage.message}/>
+            }
             <Layout>
                 {isCartVisible && <Cart/>}
                 <Products/>
